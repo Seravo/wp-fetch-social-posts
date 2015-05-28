@@ -41,8 +41,6 @@ function ssf_fetch_twitter() {
     }
 
     $items[] = $item;
-
-    print_r($item);
   }
 
   return $items;

@@ -52,7 +52,7 @@ function ssf_fetch_facebook() {
     // content is the text + link at the end
     $item['content'] = $fb_post->message;
     if(isset($fb_post->link)) {
-      $item['content'] .=  $fb_post->link;
+      $item['content'] .=  ' ' . $fb_post->link;
     }
 
     // post might have an image associated to it
@@ -61,8 +61,6 @@ function ssf_fetch_facebook() {
     }
 
     $items[] = $item;
-
-    print_r($item);
   }
 
   return $items;

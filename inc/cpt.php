@@ -36,5 +36,22 @@ function ssf_register_social_cpt() {
     'supports'           => array( 'title', 'editor', 'custom-fields' )
   );
   register_post_type( 'ssf-social', $args );
+
+  // ssf-social has a taxonomy for feed type e.g. twitter or facebook
+  register_taxonomy(
+    'ssf-social-type',
+    'ssf-social',
+    array(
+      'labels' => array(
+        'name' => _x( 'Source', 'taxonomy general name', 'seravo-social-feed' ),
+      ),
+      'show_ui' => true,
+      'show_tagcloud' => false,
+      'hierarchical' => false,
+      'show_admin_column' => true,
+      'show_ui' => false,
+    )
+  );
+
 }
 
