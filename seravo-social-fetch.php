@@ -5,15 +5,16 @@
  * Version: 0.1
  */
 
+// Custom post type for feed items
+require 'inc/cpt.php';
+
 function ssf_fetch_feeds() {
   // Facebook
   if( defined('SSF_FACEBOOK_PAGE_ID') ) {
-    echo "FACEBOOK\n";
     require 'inc/sources/facebook/facebook.php';
   }
   // Twitter
   if( defined('SSF_TWITTER_USERNAME') ) {
-    echo "TWITTER\n";
     require 'inc/sources/twitter/twitter.php';
   }
 }
