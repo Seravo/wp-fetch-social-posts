@@ -1,13 +1,53 @@
 <?php
 /**
  * Plugin Name: Seravo Social Fetch
+ * Plugin URI: http://seravo.fi
  * Description: Fetches Social Media Feeds to WordPress custom post types
- * Version: 0.1
- */
+ * Version: 1.0
+ * Author: Antti Kuosmanen (Seravo Oy)
+ * Author URI: http://seravo.fi
+ * License: GPLv3
+*/
+
+/**
+ * Copyright 2015 Antti Kuosmanen / Seravo Oy
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 3, as
+ * published by the Free Software Foundation.a
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 
 // Custom post type for feed items
 require 'inc/cpt.php';
 
+/**
+ * Define once 5 mins interval
+ */
+add_filter('cron_schedules', '_ssf_new_interval');
+function _ssf_new_interval($interval) {
+    $interval['*/5'] = array('interval' => 5 * 60, 'display' => 'Once 5 minutes');
+    return $interval;
+}
+
+/**
+ * Schedule the fetch action to be done every 5 minutes via WP-Cron
+ */
+add_action( 'wp', '_ssf_setup_schedule' );
+function _ssf_setup_schedule() {
+  if ( ! wp_next_scheduled( 'ssf_fetch_feeds' ) ) {
+    wp_schedule_event( time(), '*/5', 'ssf_fetch_feeds');
+  }
+}
+
+/**
+ * Fetches data from social networks
+ */
 add_action( 'ssf_fetch_feeds', 'ssf_do_fetch_feeds' );
 function ssf_do_fetch_feeds() {
 
