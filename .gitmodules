@@ -1,0 +1,6 @@
+[submodule "inc/sources/facebook/facebook-php-sdk-v4"]
+	path = inc/sources/facebook/facebook-php-sdk-v4
+	url = https://github.com/facebook/facebook-php-sdk-v4.git
+[submodule "inc/sources/twitter/twitter-api-php"]
+	path = inc/sources/twitter/twitter-api-php
+	url = https://github.com/J7mbo/twitter-api-php.git
