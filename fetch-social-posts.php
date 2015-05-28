@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Seravo Social Fetch
+ * Plugin Name: Fetch Social Posts
  * Plugin URI: http://seravo.fi
  * Description: Fetches Social Media Feeds to WordPress custom post types
  * Version: 1.0
@@ -29,8 +29,8 @@ require 'inc/cpt.php';
 /**
  * Define once 5 mins interval
  */
-add_filter('cron_schedules', '_ssf_new_interval');
-function _ssf_new_interval($interval) {
+add_filter('cron_schedules', '_fsp_new_interval');
+function _fsp_new_interval($interval) {
     $interval['*/5'] = array('interval' => 5 * 60, 'display' => 'Once 5 minutes');
     return $interval;
 }
@@ -38,18 +38,18 @@ function _ssf_new_interval($interval) {
 /**
  * Schedule the fetch action to be done every 5 minutes via WP-Cron
  */
-add_action( 'wp', '_ssf_setup_schedule' );
-function _ssf_setup_schedule() {
-  if ( ! wp_next_scheduled( 'ssf_fetch_feeds' ) ) {
-    wp_schedule_event( time(), '*/5', 'ssf_fetch_feeds');
+add_action( 'wp', '_fsp_setup_schedule' );
+function _fsp_setup_schedule() {
+  if ( ! wp_next_scheduled( 'fsp_fetch_feeds' ) ) {
+    wp_schedule_event( time(), '*/5', 'fsp_fetch_feeds');
   }
 }
 
 /**
  * Fetches data from social networks
  */
-add_action( 'ssf_fetch_feeds', 'ssf_do_fetch_feeds' );
-function ssf_do_fetch_feeds() {
+add_action( 'fsp_fetch_feeds', 'fsp_do_fetch_feeds' );
+function fsp_do_fetch_feeds() {
 
   if(isset($_GET['fetch_feeds'])) {
     echo "<pre>";
@@ -64,12 +64,12 @@ function ssf_do_fetch_feeds() {
   // Facebook
   if( defined('SSF_FACEBOOK_PAGE_ID') ) {
     require 'inc/sources/facebook/facebook.php';
-    $fetched = array_merge($fetched, ssf_fetch_facebook());
+    $fetched = array_merge($fetched, fsp_fetch_facebook());
   }
   // Twitter
   if( defined('SSF_TWITTER_USERNAME') ) {
     require 'inc/sources/twitter/twitter.php';
-    $fetched = array_merge($fetched, ssf_fetch_twitter());
+    $fetched = array_merge($fetched, fsp_fetch_twitter());
   }
 
   // store available ids to keep track of published posts
@@ -92,12 +92,12 @@ function ssf_do_fetch_feeds() {
       'post_title'     => $item['title'],
       'post_date'      => date('Y-m-d H:i:s', $item['created']),
       'post_status'    => 'publish',
-      'post_type'      => 'ssf-social',
+      'post_type'      => 'fsp-social',
     );
 
     // check if this already exists as a post
     $matching = get_posts( array(
-      'post_type' => 'ssf-social',
+      'post_type' => 'fsp-social',
       'meta_query' => array(
         array(
           'key' => '_uid',
@@ -124,10 +124,10 @@ function ssf_do_fetch_feeds() {
     // set type for this post
 
     // first see if this term already exists in the db and add it if it doesn't
-    if( ! $term_id = term_exists( $item['type'], 'ssf-social-type'  )) {
+    if( ! $term_id = term_exists( $item['type'], 'fsp-social-type'  )) {
       $term_id = wp_insert_term(
         $meta['type'],
-        'ssf-social-type',
+        'fsp-social-type',
         array(
           'slug' => strtolower( $item['type'] ),
         )
@@ -135,7 +135,7 @@ function ssf_do_fetch_feeds() {
     } 
 
     // attach taxonomy terms to this post
-    wp_set_object_terms( $post_id, $item['type'], 'ssf-social-type' );
+    wp_set_object_terms( $post_id, $item['type'], 'fsp-social-type' );
 
     // store meta fields
     foreach($meta as $key => $value) {
@@ -155,7 +155,7 @@ function ssf_do_fetch_feeds() {
   // find posts to eliminate
   $eliminate = get_posts( array(
     'posts_per_page' => -1,
-    'post_type' => 'ssf-social',
+    'post_type' => 'fsp-social',
     'meta_query' => array(
       array(
         'key' => '_uid',
@@ -189,5 +189,5 @@ function ssf_do_fetch_feeds() {
 }
 
 if(isset($_GET['fetch_feeds'])) {
-  add_action('init', 'ssf_do_fetch_feeds');
+  add_action('init', 'fsp_do_fetch_feeds');
 }

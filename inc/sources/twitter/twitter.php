@@ -3,7 +3,7 @@
 /**
  * Fetches a list of tweets
  */
-function ssf_fetch_twitter() {
+function fsp_fetch_twitter() {
 
   // Require the Twitter PHP API
   require_once 'twitter-api-php/TwitterAPIExchange.php';

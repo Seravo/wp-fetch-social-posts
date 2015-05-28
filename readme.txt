@@ -1,4 +1,4 @@
-=== Seravo Social Fetch ===
+=== Fetch Social Posts ===
 Contributors: Zuige
 Tags: nettix, sync
 Donate link: http://seravo.fi/

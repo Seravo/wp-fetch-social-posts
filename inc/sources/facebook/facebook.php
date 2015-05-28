@@ -11,7 +11,7 @@ use Facebook\FacebookRequestException;
 /**
  * Returns a list of facebook statuses
  */
-function ssf_fetch_facebook() {
+function fsp_fetch_facebook() {
 
   FacebookSession::setDefaultApplication(SSF_FACEBOOK_APP_ID, SSF_FACEBOOK_APP_SECRET);
   $session = new FacebookSession(SSF_FACEBOOK_APP_TOKEN);

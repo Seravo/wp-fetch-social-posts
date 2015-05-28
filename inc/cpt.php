@@ -3,8 +3,8 @@
 /**
  * CPT for the feed items
  */
-add_action( 'init', 'ssf_register_social_cpt' );
-function ssf_register_social_cpt() {
+add_action( 'init', 'fsp_register_social_cpt' );
+function fsp_register_social_cpt() {
   $labels = array(
     'name'               => _x( 'Social', 'post type general name', 'seravo-social-feed' ),
     'singular_name'      => _x( 'Social', 'post type singular name', 'seravo-social-feed' ),
@@ -35,12 +35,12 @@ function ssf_register_social_cpt() {
     'menu_position'      => null,
     'supports'           => array( 'title', 'editor', 'custom-fields' )
   );
-  register_post_type( 'ssf-social', $args );
+  register_post_type( 'fsp-social', $args );
 
-  // ssf-social has a taxonomy for feed type e.g. twitter or facebook
+  // fsp-social has a taxonomy for feed type e.g. twitter or facebook
   register_taxonomy(
-    'ssf-social-type',
-    'ssf-social',
+    'fsp-social-type',
+    'fsp-social',
     array(
       'labels' => array(
         'name' => _x( 'Source', 'taxonomy general name', 'seravo-social-feed' ),
