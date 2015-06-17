@@ -1,0 +1,18 @@
+{
+  "name": "seravo/wp-fetch-social-posts",
+  "type": "wordpress-plugin",
+  "license": "GPLv3",
+  "description": "This plugin brings over data from social sites like Facebook and Twitter via
+their APIs and syncs them with a custom post type available for your theme.",
+  "homepage": "https://github.com/Seravo/wp-https-domain-alias",
+  "authors": [
+    {
+      "name": "Antti Kuosmanen",
+      "email": "antti@seravo.fi",
+      "homepage": "https://github.com/anttiviljami"
+    }
+  ],
+  "keywords": [
+    "wordpress","fetch", "social", "posts"
+  ]
+}
